@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="mybatis" targetRuntime="MyBatis3">
+        <!-- 数据库信息 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://39.106.72.49:3406/db_fas?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true"
+                        userId="test0"
+                        password="test0">
+        </jdbcConnection>
+
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="king.gen.entity" targetProject="src/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="xml"  targetProject="src/resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="king.gen.mapper"  targetProject="src/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!-- 表名 -->
+        <table tableName="tb_type" domainObjectName="Type"></table>
+        <table tableName="tb_image" domainObjectName="Image"></table>
+        <table tableName="tb_state" domainObjectName="State"></table>
+        <table tableName="tb_user" domainObjectName="User"></table>
+        <table tableName="tb_account" domainObjectName="Account"></table>
+        <table tableName="tb_who" domainObjectName="Who"></table>
+        <table tableName="tb_income" domainObjectName="Income"></table>
+        <table tableName="tb_outcome" domainObjectName="Outcome"></table>
+        <table tableName="tb_debt" domainObjectName="Debt"></table>
+
+    </context>
+</generatorConfiguration>

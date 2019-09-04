@@ -1,0 +1,23 @@
+spring:
+  devtools:
+    restart: 
+      enabled: true 
+      additional-paths: src/java
+  http:
+    multipart:
+      max-file-size: 10M
+      max-request-size: 10M
+
+  datasource:
+    url: jdbc:mysql://39.106.72.49:3406/db_fas?useUnicode=true&characterEncoding=utf8&useSSL=true
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: test0
+    password: test0
+
+mybatis:
+  mapperLocations: classpath:xml/*.xml
+
+server:
+  port: 8092
+  servlet:
+    context-path: /
