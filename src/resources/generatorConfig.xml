@@ -40,6 +40,9 @@
         <table tableName="tb_income" domainObjectName="Income"></table>
         <table tableName="tb_outcome" domainObjectName="Outcome"></table>
         <table tableName="tb_debt" domainObjectName="Debt"></table>
+	<table tableName="tb_path" domainObjectName="Path"></table>
+        <table tableName="tb_token" domainObjectName="Token"></table>
+        <table tableName="tb_api" domainObjectName="Api"></table>
 
     </context>
 </generatorConfiguration>
