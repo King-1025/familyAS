@@ -14,7 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
  
 import king.familyAS.tool.CheckTool;
+
 import king.familyAS.model.Result;
+import king.familyAS.model.ActionResult;
+
 import king.gen.entity.ApiWithBLOBs;
 import king.gen.entity.State;
 import king.gen.entity.Token;
@@ -28,7 +31,7 @@ import king.familyAS.service.ActionService;
 @Controller
 @RequestMapping("/api")
 public class APIController{
-   
+    
    private final static int FAILED  = -1;
    private final static int SUCCESS = 0;
 
@@ -73,7 +76,9 @@ public class APIController{
 	String        type    = null;
 
 	for(int i=0;i<order.length;i++){
+
             boolean ant=false;
+
 	    switch(order[i]){
                case 1:
                  if(CheckTool.isLegal(apiName) && 
@@ -145,8 +150,10 @@ public class APIController{
                     result.setContent(state.getProfile());
 		 }
 		 if(isResetApiState){
+
                     int sid=stateService.queryId(API_STATE_NORMAL);
-		    if(sid!=StateService.QUERY_STATE_ID_FAILED){
+
+		    if(sid != StateService.QUERY_STATE_ID_FAILED){
 	              api.setCallCount(0);
 		      api.setFailed(0);
 		      api.setLastTime(nowTime);
@@ -219,9 +226,44 @@ public class APIController{
    
    private Result run(ApiWithBLOBs api){
 	int flag = api.getFlag();
-	return actionService.setFlag(flag)
-		            .setRequest(request)
-			    .create()
-			    .perform();
+
+	ActionResult actionResult = null;
+	
+	try {
+		actionResult = actionService.
+		create(flag,request).
+		perform();
+        } catch(Exception e){
+		e.printStackTrace();
+                actionResult = new ActionResult(
+			       new Result(FAILED,"action执行异常！"+e),
+			       false);
+        }
+
+	api.setLastTime(new Date());
+       
+	int callCount = api.getCallCount();
+	callCount+=1;
+	api.setCallCount(callCount);
+
+	if(!actionResult.isFinish()){
+	  api.setFailed(api.getFailed()+1);
+	}
+        
+        if(callCount >= api.getCallLimit()){
+             int sid=stateService.queryId(API_STATE_DISABLE);
+	     if(sid != StateService.QUERY_STATE_ID_FAILED){
+		api.setStateId(sid);
+	     }else{
+		return new Result(FAILED,"API状态更新异常！");
+	     }
+	}
+
+	if(apiService.changeApi(api)){
+	    return actionResult.getResult();
+	}else{
+  	    return new Result(FAILED,"API更新失败！");
+	}
+
    }
 }
