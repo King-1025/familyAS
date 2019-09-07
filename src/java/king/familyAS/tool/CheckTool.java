@@ -9,8 +9,18 @@ public class CheckTool{
    public final static int CL_OR=0x03;
    public final static int OL_CR=0x04;
 
+   public static boolean isLegalIP(String value){
+       String pattern = "[~!/@#$%^&*()\\-_=+\\|[{}];\'\",<>/?]+";
+       return isLegal(value,pattern);
+   }
+
    public static boolean isLegal(String value){
        String pattern = "[~!/@#$%^&*()\\-_=+\\|[{}];:\'\",<.>/?]+";
+       return isLegal(value,pattern);
+   }
+
+   public static boolean isLegal(String value,String pattern){
+       if(value == null || pattern == null) return false;
        return (!((Pattern.compile(pattern)).matcher(value)).find());
    }
 

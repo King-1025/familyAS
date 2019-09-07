@@ -15,6 +15,7 @@ import king.familyAS.model.Result;
 import king.gen.entity.User;
 
 import king.familyAS.tool.IPTool;
+import king.familyAS.tool.TimeTool;
 
 @Controller
 @RequestMapping("/test")
@@ -33,6 +34,12 @@ public class TestController{
    @RequestMapping("/ip")
    public Result ip(){
        return new Result(0,IPTool.getRequestIP(request));
+   }
+
+   @ResponseBody
+   @RequestMapping("/now")
+   public Result now(){
+       return new Result(0,TimeTool.now());
    }
 
 }

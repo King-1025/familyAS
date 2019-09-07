@@ -19,6 +19,7 @@ drop table if exists tb_debt;
 drop table if exists tb_path;
 drop table if exists tb_token;
 drop table if exists tb_api;
+drop table if exists tb_blacklist;
 
 -- 1.for tb_image tb_user
 create table if not exists tb_type
@@ -196,6 +197,7 @@ create table if not exists tb_api
   call_count int(20) default 0,
   failed int(20) default 0,
   last_time datetime,
+  last_request_ip varchar(20),
   path_id int unsigned,
   type_id int unsigned,
   state_id int unsigned,
@@ -208,3 +210,10 @@ alter table tb_token add constraint fk_token_state_id foreign key(state_id) REFE
 alter table tb_api add constraint fk_api_path_id foreign key(path_id) REFERENCES tb_path(id);
 alter table tb_api add constraint fk_api_type_id foreign key(type_id) REFERENCES tb_type(id);
 alter table tb_api add constraint fk_api_state_id foreign key(state_id) REFERENCES tb_state(id);
+
+create table if not exists tb_blacklist
+(
+  id int unsigned auto_increment,  
+  ip varchar(20) not null,
+  primary key (id)
+)engine=InnoDB default charset=utf8;

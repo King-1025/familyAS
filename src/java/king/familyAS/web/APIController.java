@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
  
 import king.familyAS.tool.CheckTool;
+import king.familyAS.tool.IPTool;
+import king.familyAS.tool.TimeTool;
 
 import king.familyAS.model.Result;
 import king.familyAS.model.ActionResult;
@@ -27,6 +29,7 @@ import king.familyAS.service.StateService;
 import king.familyAS.service.TokenService;
 import king.familyAS.service.ApiService;
 import king.familyAS.service.ActionService;
+import king.familyAS.service.BlacklistService;
 
 @Controller
 @RequestMapping("/api")
@@ -48,7 +51,7 @@ public class APIController{
    
    @Autowired
    private TypeService typeService;
-   
+  
    @Autowired
    private StateService stateService;
 
@@ -57,6 +60,9 @@ public class APIController{
    
    @Autowired
    private ActionService actionService;
+
+   @Autowired
+   private BlacklistService blacklistService;
 
    @ResponseBody
    @RequestMapping("/{api_name}/{api_version}")
@@ -67,19 +73,33 @@ public class APIController{
    ){
 	Result result = new Result(FAILED,null);
 
-	int order[] = {1,2,3,4,5,6,7,8,9};
+	int order[] = {0,1,2,3,4,5,6,7,8,9};
 
-	ApiWithBLOBs  api     = null;
-	Date          nowTime = null;
-	Token         token   = null;
-	State         state   = null;
-	String        type    = null;
+	ApiWithBLOBs  api       = null;
+	Date          nowTime   = null;
+	Token         token     = null;
+	State         state     = null;
+	String        type      = null;
+        String        requestIP = null;
 
 	for(int i=0;i<order.length;i++){
 
             boolean ant=false;
 
 	    switch(order[i]){
+	       case 0:
+	         requestIP = IPTool.getRequestIP(request);
+         	 if (requestIP != null && CheckTool.isLegalIP(requestIP))
+		 {
+	            if(!blacklistService.isExists(requestIP)){
+                         ant=true;
+		    }else{
+                         result.setContent("禁止访问！");
+		    }
+		 }else{
+                         result.setContent("请求IP异常！");
+		 }
+		 break;
                case 1:
                  if(CheckTool.isLegal(apiName) && 
 	            CheckTool.isLegal(apiVersion))
@@ -134,10 +154,10 @@ public class APIController{
 		 }else if(state.getState() == API_STATE_DISABLE){
                    Date lastTime = api.getLastTime();
 		   if(lastTime == null){
-                     nowTime = new Date();
+                     nowTime = TimeTool.now();
 		     isResetApiState=true;
 		   }else{
-                     nowTime = new Date();
+                     nowTime = TimeTool.now();
 		     long t=nowTime.getTime() - lastTime.getTime();
 		     if( t > (1000 * 60 * 60 * 24)){ //one day
                          isResetApiState=true;
@@ -188,7 +208,7 @@ public class APIController{
 			      if(createDate == null){
                                 result.setContent("token异常！"); 
 			      }else{
-                                nowTime = new Date();
+                                nowTime = TimeTool.now();
 				long f= liveTime.getTime() - (nowTime.getTime() - createDate.getTime());
                                 if(f > 0){
                                    ant = true;
@@ -212,6 +232,7 @@ public class APIController{
 		 }
 	         break;
                case 9:
+		 api.setLastRequestIp(requestIP);
                  result = run(api);
 	         break;
 	    }
@@ -223,7 +244,7 @@ public class APIController{
    private ApiWithBLOBs fetchAPI(String action,String basePath){
         return apiService.obtainApi(action,basePath);
    }
-   
+    
    private Result run(ApiWithBLOBs api){
 	int flag = api.getFlag();
 
@@ -240,7 +261,7 @@ public class APIController{
 			       false);
         }
 
-	api.setLastTime(new Date());
+	api.setLastTime(TimeTool.now());
        
 	int callCount = api.getCallCount();
 	callCount+=1;

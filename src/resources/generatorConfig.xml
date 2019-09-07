@@ -43,6 +43,7 @@
 	<table tableName="tb_path" domainObjectName="Path"></table>
         <table tableName="tb_token" domainObjectName="Token"></table>
         <table tableName="tb_api" domainObjectName="Api"></table>
+        <table tableName="tb_blacklist" domainObjectName="Blacklist"></table>
 
     </context>
 </generatorConfiguration>
