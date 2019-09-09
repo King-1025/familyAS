@@ -1,50 +1,24 @@
-plugins {
-    id 'java'
-    id 'org.springframework.boot' version '2.1.4.RELEASE'
-    id "com.arenagod.gradle.MybatisGenerator" version "1.4"
-}
-
-repositories {
-    google()
-    jcenter()
-    mavenCentral()
-}
-
-apply plugin: 'io.spring.dependency-management'
-
-group = 'king.familyAS'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
-
-sourceSets {
-    main {
-      java {
-        srcDirs=['src/java']
-      }
-      resources {
-        srcDirs=['src/resources']
-      }
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.4.+'
+        /* Realm数据库支持 */
+        classpath "io.realm:realm-gradle-plugin:5.11.0"
     }
 }
 
-configurations {
-    mybatisGenerator
+subprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
 }
 
-mybatisGenerator {
-    verbose = true
-    configFile = 'src/resources/generatorConfig.xml'
-}
-
-dependencies {
-      	implementation 'org.springframework.boot:spring-boot-starter-web'
-        implementation 'org.springframework.boot:spring-boot-devtools'
-        implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:+'
-        implementation 'io.springfox:springfox-swagger2:+'
-        implementation 'io.springfox:springfox-swagger-ui:+'
-        implementation 'mysql:mysql-connector-java:+'
-	implementation 'com.google.guava:guava:+'
-	implementation 'org.kie.modules:org-apache-commons-net:+'
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }

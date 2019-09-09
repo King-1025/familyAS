@@ -1,0 +1,109 @@
+plugins {
+        id 'com.android.application'
+}
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "king.familyAS"
+        minSdkVersion 17
+        targetSdkVersion 29
+        versionCode 1
+        versionName "0.0.1"
+        /* SVG图支持 */
+        vectorDrawables.useSupportLibrary = true
+        /* dex拆分 */
+        multiDexEnabled true
+        /* 统一维度 */
+        flavorDimensions "versionCode"
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['code']
+            aidl.srcDirs = ['code']
+            renderscript.srcDirs = ['code']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+       }
+    }
+
+    buildTypes {
+        release {
+            /* 启用混淆编译 */
+            minifyEnabled true
+            /* 启用对齐优化 */
+            zipAlignEnabled true
+            /* 启用资源过滤 */
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            /* 调试模式打包版本号添加后缀 */
+            versionNameSuffix "-debug"
+            /* 关闭混淆编译 */
+            minifyEnabled false
+            /* 关闭资源过滤 */
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    /* 这个我也不知道啥玩意,反正这么写就对了 */
+    dexOptions {
+        preDexLibraries = false
+    }
+
+    /* lambda表达式支持 */
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    
+}
+
+repositories {
+//      flatDir dirs:"$rootDir/android/repo"
+}
+
+dependencies {
+    implementation project(path:":android:lingin")
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    /* JSON解析 */
+    implementation 'com.google.code.gson:gson:2.8.5'
+    /* 网络访问 */
+    implementation 'com.squareup.okhttp3:okhttp:3.14.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
+    /* 异步任务 */
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
+    /* 生命周期管理 */
+    implementation 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0'
+    /* 视图注入 */
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    /* 图片加载 */
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    /* 圆形图片 */
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+    /* 图片处理 */
+    implementation 'jp.wasabeef:glide-transformations:4.0.1'
+    /* RecyclerView适配器 */
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
+}
+
