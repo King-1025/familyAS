@@ -20,4 +20,9 @@ insert into tb_state (state,profile) values (1,"API禁用");
 insert into tb_state (state,profile) values (10,"Token正常");
 insert into tb_state (state,profile) values (11,"Token禁用");
 
-insert into tb_api (name,action,flag,check_token,path_id,type_id,state_id) values ("登录","login",0,0,1,1,1);
+insert into tb_api (name,action,flag,check_token,path_id,type_id,state_id) values ("登录","login",0,0,1,2,1);
+
+insert into tb_api (name,action,flag,check_token,path_id,type_id,state_id) values ("查询所有API","getAllApi",1,1,1,1,1);
+
+
+insert into tb_api (name,action,flag,check_token,path_id,type_id,state_id) values ("上传","upload",2,0,1,2,1);

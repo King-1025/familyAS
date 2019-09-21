@@ -3,10 +3,11 @@ spring:
     restart: 
       enabled: true 
       additional-paths: src/java
-  http:
-    multipart:
-      max-file-size: 10M
-      max-request-size: 10M
+      http:
+          multipart:
+              enabled: true
+              max-file-size: 10M
+              max-request-size: 10M
 
   datasource:
     url: jdbc:mysql://39.106.72.49:3406/db_fas?useUnicode=true&characterEncoding=utf8&useSSL=true

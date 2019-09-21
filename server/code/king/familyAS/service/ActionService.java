@@ -3,12 +3,15 @@ package king.familyAS.service;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import king.familyAS.action.Action;
 import king.familyAS.action.Undefined;
 import king.familyAS.action.Login;
 import king.familyAS.action.GetAllApi;
+import king.familyAS.action.Upload;
 
 import king.familyAS.model.ActionFlag;
 
@@ -24,10 +27,16 @@ public class ActionService {
      private GetAllApi getAllApi;
 
      @Autowired
+     private Upload upload;
+
+     @Autowired
      private Undefined undefined;
 
-     public Action create(ActionFlag flag, HttpServletRequest request){
-             
+     public Action create(
+		     ActionFlag flag,
+		     HttpServletRequest request
+		     ) {
+
 	     LogTool.info(this,"Action标志:"+flag.toString());
 
 	     Action action = null;
@@ -38,6 +47,9 @@ public class ActionService {
 	  	  break;
 	       case QUERY_ALL_API:
 		  action = getAllApi;
+		  break;
+	       case UPLOAD:
+		  action = upload.accept(request);
 		  break;
 	       case UNDEFINED:
 	       default:

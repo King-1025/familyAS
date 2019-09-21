@@ -2,9 +2,10 @@ package king.familyAS.model;
 
 public enum ActionFlag {
 
-   UNDEFINED(-1,"undefined",null),
-   LOGIN(0,"login",new String []{"name","password"}),
-   QUERY_ALL_API(1,"getAllApi",null);
+   UPLOAD       ( 2 , "upload"    ,  new String []{"location","file"}),
+   QUERY_ALL_API( 1 , "getAllApi",  null),
+   LOGIN        ( 0 , "login"    ,  new String []{"name","password"}),
+   UNDEFINED    (-1 , "undefined",  null);
 
    private int value;
    private String name;
