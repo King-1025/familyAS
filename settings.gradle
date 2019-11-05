@@ -11,4 +11,4 @@ rootProject.name = 'familyAS'
 include 'server'
 
 include 'android:app'
-include 'android:lingin'
+include 'android:kmax'

@@ -1,84 +1,69 @@
 plugins {
-    id 'com.android.application'
+	id 'com.android.library'
+	id 'realm-android'
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion  29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "king.familyAS"
-        minSdkVersion 17
-        targetSdkVersion 29
-        versionCode 1
-        versionName "0.0.1"
-
-        // SVG图支持
+        minSdkVersion     17
+        targetSdkVersion  29
+        versionCode       1
+        multiDexEnabled   true
+        versionName      "1.0.0"
+        flavorDimensions "versionCode"
         vectorDrawables.useSupportLibrary = true
-        // dex拆分
-        multiDexEnabled true
     }
 
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs         =        ['code']
-            aidl.srcDirs         =        ['code']
-            renderscript.srcDirs =        ['code']
-            res.srcDirs          =        ['res']
-            assets.srcDirs       =        ['assets']
-            jniLibs.srcDirs      =        ['libs']
+            res.srcDirs          =    ['res']
+            assets.srcDirs       = ['assets']
+            java.srcDirs         =   ['code']
+            aidl.srcDirs         =   ['code']
+            jniLibs.srcDirs      =   ['libs']
+            renderscript.srcDirs =   ['code']
        }
     }
 
     buildTypes {
-/*
+///*
         release {
-            // 启用混淆编译
             minifyEnabled true
-            // 启用对齐优化
             zipAlignEnabled true
-            // 启用资源过滤
-            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', '../retrofit2.pro'
         }
-*/
+//*/
         debug {
-            // 调试模式打包版本号添加后缀
             versionNameSuffix "-debug"
-            // 关闭混淆编译
-            minifyEnabled false
-            // 关闭资源过滤
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', '../retrofit2.pro'
+            minifyEnabled      false
+            proguardFiles      getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', '../retrofit2.pro'
+
         }
+
     }
 
     dexOptions {
         preDexLibraries = false
     }
 
-    // lambda表达式支持
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    productFlavors {	
+        dev {
+            buildConfigField "String", "SERVER_BASE", 
+	    "\"http://39.106.72.49:8092\""
+        }
+    }
 }
 
-
 dependencies {
-    // new
-    implementation project(path:":android:kmax")
-    implementation 'com.youth.template:UITemplateView:1.+'
-    implementation 'com.github.forvv231:EasyNavigation:1.0.3'
-    implementation 'com.github.huangdali:LogcatView:v1.+'
-    // 视图注入
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    // 生命周期管理
-    implementation 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0'
-
-/*
-    // extra
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
@@ -86,39 +71,48 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android.material:material:1.0.0'
 
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
-   
-    // 测试
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    // 异步任务
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
+    // 视图注入
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
 
-    // JSON解析
-    implementation 'com.google.code.gson:gson:2.8.5'
-
-    // 网络访问
+    // 网络访问 
     implementation 'com.squareup.okhttp3:okhttp:3.14.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.14.0'
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
 
-    // 图片加载
+    // JSON解析
+    implementation 'com.google.code.gson:gson:2.8.5'
+    // 异步任务
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
+    // 生命周期管理
+    implementation 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0'
+    // 图片加载 
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-
     // 圆形图片
     implementation 'de.hdodenhof:circleimageview:3.0.0'
-
     // 图片处理
     implementation 'jp.wasabeef:glide-transformations:4.0.1'
-
     // RecyclerView适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
-    */
 }
 
+group='com.github.King-1025'
+version = android.defaultConfig.versionName
+project.ext.code = android.defaultConfig.versionCode
+
+/* 打包APK的文件名自动配置 */
+android.libraryVariants.all { variant ->
+        variant.outputs.all { output ->
+            if (variant.productFlavors[0].name.endsWith("dev")) {
+                outputFileName ="library-${version}_${code}.aar"
+	    }
+        }
+}
