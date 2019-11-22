@@ -1,6 +1,6 @@
 package king.familyAS.tool;
 
-import net.lingin.max.android.utils.SharedPreferencesUtils;
+import king.max.utils.SharedPreferencesUtils;
 
 import king.familyAS.model.Key;
 

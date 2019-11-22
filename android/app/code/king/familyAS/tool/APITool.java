@@ -1,10 +1,10 @@
 package king.familyAS.tool;
 
-import net.lingin.max.android.net.Subs;
-import net.lingin.max.android.net.Network;
-import net.lingin.max.android.net.Scheduler;
-import net.lingin.max.android.net.map.ApiService;
-import net.lingin.max.android.net.entity.result.Result;
+import king.max.net.Subs;
+import king.max.net.Network;
+import king.max.net.Scheduler;
+import king.max.net.map.ApiService;
+import king.max.net.entity.Result;
 
 import com.trello.rxlifecycle3.android.ActivityEvent;
 

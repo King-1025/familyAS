@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion  29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion  28
+    buildToolsVersion "28.0.3"
     defaultConfig {
         minSdkVersion     17
-        targetSdkVersion  29
+        targetSdkVersion  28
         versionCode       1
         multiDexEnabled   true
         versionName      "1.0.0"
@@ -57,7 +57,7 @@ android {
     productFlavors {	
         dev {
             buildConfigField "String", "SERVER_BASE", 
-	    "\"http://39.106.72.49:8092\""
+	    "\"http://192.168.1.10:8092\""
         }
     }
 }

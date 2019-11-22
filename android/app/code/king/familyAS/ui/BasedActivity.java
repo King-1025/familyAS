@@ -1,7 +1,7 @@
 package king.familyAS.ui;
 
 import king.max.ui.base.BaseActivity;
-import king.max.net.entity.result.Result;
+import king.max.net.entity.Result;
 import king.max.net.*;
 import king.max.utils.*;
 

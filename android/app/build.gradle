@@ -3,12 +3,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "king.familyAS"
         minSdkVersion 17
-        targetSdkVersion 29
+        targetSdkVersion 28
         versionCode 1
         versionName "0.0.1"
 
@@ -31,7 +31,7 @@ android {
     }
 
     buildTypes {
-/*
+
         release {
             // 启用混淆编译
             minifyEnabled true
@@ -41,7 +41,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', '../retrofit2.pro'
         }
-*/
+
         debug {
             // 调试模式打包版本号添加后缀
             versionNameSuffix "-debug"
@@ -119,6 +119,6 @@ dependencies {
 
     // RecyclerView适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
-    */
+  */ 
 }
 

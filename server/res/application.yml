@@ -10,7 +10,7 @@ spring:
               max-request-size: 10M
 
   datasource:
-    url: jdbc:mysql://39.106.72.49:3406/db_fas?useUnicode=true&characterEncoding=utf8&useSSL=true
+    url: jdbc:mysql://localhost:3306/db_fas?useUnicode=true&characterEncoding=utf8&useSSL=true
     driverClassName: com.mysql.cj.jdbc.Driver
     username: test0
     password: test0
