@@ -3,7 +3,7 @@ name: 构建安卓应用
 on: [push]
 
 jobs:
-  构建:
+  build:
 
     runs-on: ubuntu-latest
 
